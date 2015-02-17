@@ -66,8 +66,8 @@ editor     = os.getenv("EDITOR") or "nano" or "vi"
 editor_cmd = terminal .. " -e " .. editor
 
 -- user defined
-chrome     = "google-chrome"
-lighthouse = "lighthouse"
+chrome     = "google-chrome-stable"
+lighthouse = "lighthouse | sh"
 browser    = "dwb"
 browser2   = "iron"
 gui_editor = "gvim"
@@ -120,7 +120,7 @@ markup      = lain.util.markup
 
 -- Textclock
 clockicon = wibox.widget.imagebox(beautiful.widget_clock)
-mytextclock = awful.widget.textclock(markup("#F62459", "%A %d %B ") .. markup("#FFFFFF", "|") .. markup("#F62459", " %H:%M "))
+mytextclock = awful.widget.textclock(markup("#F62459", " %A %d %B ") .. markup("#FFFFFF", "|") .. markup("#F62459", " %H:%M "))
 
 -- Calendar
 lain.widgets.calendar:attach(mytextclock, { font_size = 10 })
@@ -188,7 +188,7 @@ batwidget = lain.widgets.bat({
         else
             bat_now.perc = bat_now.perc .. "% "
         end
-        widget:set_text(bat_now.perc)
+        widget:set_markup(markup("#F62459", bat_now.perc))
     end
 })
 
@@ -200,7 +200,7 @@ volumewidget = lain.widgets.alsa({
             volume_now.level = volume_now.level .. "M"
         end
 
-        widget:set_markup(markup("#F62459", "Vol: " .. volume_now.level .. "% "))
+        widget:set_markup(markup("#F62459", volume_now.level .. "% "))
     end
 })
 
@@ -257,7 +257,7 @@ mpdwidget = lain.widgets.mpd({
 })
 
 -- Spacer
-spacer = wibox.widget.textbox("| ")
+spacer = wibox.widget.textbox("|")
 
 -- }}}
 
@@ -345,14 +345,14 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the upper right
     local right_layout = wibox.layout.fixed.horizontal()
-    if s == 1 then right_layout:add(wibox.widget.systray()) right_layout:add(spacer) end
+    --if s == 1 then right_layout:add(wibox.widget.systray()) right_layout:add(spacer) end
     --right_layout:add(mailicon)
     --right_layout:add(mailwidget)
     --right_layout:add(netdownicon)
     --right_layout:add(netdowninfo)
     --right_layout:add(netupicon)
     --right_layout:add(netupinfo)
-    --right_layout:add(volicon)
+    right_layout:add(volicon)
     right_layout:add(volumewidget)
     right_layout:add(spacer)
     --right_layout:add(memicon)
@@ -365,8 +365,9 @@ for s = 1, screen.count() do
     --right_layout:add(yawn.widget)
     --right_layout:add(tempicon)
     --right_layout:add(tempwidget)
-    --right_layout:add(baticon)
-    --right_layout:add(batwidget)
+    right_layout:add(baticon)
+    right_layout:add(batwidget)
+    right_layout:add(spacer)
     --right_layout:add(clockicon)
     right_layout:add(mytextclock)
 
