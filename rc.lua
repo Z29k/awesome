@@ -339,12 +339,13 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the upper left
     local left_layout = wibox.layout.fixed.horizontal()
     left_layout:add(mytaglist[s])
-    left_layout:add(mypromptbox[s])
+    --left_layout:add(mypromptbox[s])
     left_layout:add(mpdicon)
     left_layout:add(mpdwidget)
 
     -- Widgets that are aligned to the upper right
     local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(mypromptbox[s])
     --if s == 1 then right_layout:add(wibox.widget.systray()) right_layout:add(spacer) end
     --right_layout:add(mailicon)
     --right_layout:add(mailwidget)
@@ -558,17 +559,17 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "g", function () awful.util.spawn(graphics) end),
 
     -- Prompt
-    --awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
+    awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
     awful.key({ modkey }, "x",
               function ()
                   awful.prompt.run({ prompt = "Run Lua code: " },
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
-              end),
+              end)
 
     -- Lighthouse Prompt
-    awful.key({ modkey }, "r", function () awful.util.spawn(lighthouse) end)
+    --awful.key({ modkey }, "r", function () awful.util.spawn(lighthouse) end)
 )
 
 clientkeys = awful.util.table.join(
